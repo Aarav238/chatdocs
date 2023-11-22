@@ -1,7 +1,8 @@
+
+
 import { useSearchParams , useRouter } from "next/navigation"
 import { trpc } from "../_trpc/client"
-
-const Page = async () => {
+const Page = () => {
 
     const router = useRouter()
 
@@ -12,13 +13,19 @@ const Page = async () => {
     
     
 
-    const {data , isLoading} = trpc.authCallBack.useQuery(undefined,{
-        onSuccess: ({success}) => {
-            if(success){
-                router.push(origin ? `/${origin}` : '/dashboard')
-            }
-        }
-    })
+    trpc.authCallback.useQuery(undefined, {
+        onSuccess : ({ success }) => {
+          if (success) {
+            // if user is synced to our database
+            router.push(origin ? `/${origin}` : `/dashboard`);
+          }
+        },
+        onError: (err) => {
+          if (err.data?.code === "UNAUTHORIZED") router.push("/sign-in");
+        },
+        retry: true,
+        retryDelay: 500,
+      });
 
   return (
     <div>page </div>
