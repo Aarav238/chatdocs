@@ -5,12 +5,13 @@ const Page = async () => {
     const {getUser} = getKindeServerSession()
     const user = await getUser()
     
-
+    console.log(user);
+    
     if(!user || !user.id ) redirect ("auth-callback?origin=dashboard")
 
 
     return(
-      <div>Hello {user.email}</div>
+      <div>Hello {user.given_name}</div>
     )
 
 }
