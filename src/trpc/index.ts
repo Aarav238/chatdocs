@@ -10,6 +10,8 @@ export const appRouter = router({
         
 
         //check if user is in the database
+
+        // const dbUser = await 
         return { success: true }
       
     })
