@@ -1,7 +1,8 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { router, publicProcedure } from './trpc';
+import { router, publicProcedure, privateProcedure } from './trpc';
 import {TRPCError} from "@trpc/server"
 import { db } from '@/db';
+import {z} from "zod"
 export const appRouter = router({
     authCallback : publicProcedure.query(async () => {
         const {getUser} = getKindeServerSession()
@@ -30,7 +31,18 @@ export const appRouter = router({
         }
         return { success: true }
       
+    }),
+    getUserFile: privateProcedure.query(async ({ctx}) => {
+            const {userId,user} = ctx
+
+            return await db.file.findMany({
+                where:{
+                    userId
+                }
+            })
+
     })
+    deleteFile: privateProcedure.input(z.object)
 
 });
  
