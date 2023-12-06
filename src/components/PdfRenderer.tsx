@@ -29,9 +29,11 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
 
   const [currentPage , setCurrentPage] = useState<number>(1)
 
-  const CustomPageValidator= z.object({
-    page: z.string().refine((num) =>  Number(num) > 0 && Number(num) <= numPages!)
-  })
+  const CustomPageValidator = z.object({
+    page: z
+      .string()
+      .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
+  });
 
   type TCustomPageValidator = z.infer<typeof CustomPageValidator>
 
