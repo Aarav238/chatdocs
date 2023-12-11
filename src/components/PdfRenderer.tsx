@@ -22,6 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import PdfFullScreen from "./PdfFullScreen";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface PdfRendererProps {
@@ -73,6 +74,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             disabled={currentPage <= 1}
             onClick={() => {
               setCurrentPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
+              setValue('page' , String(currentPage - 1))
             }}
             variant="ghost"
             aria-label="previous page"
@@ -104,6 +106,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               setCurrentPage((prev) =>
                 prev + 1 > numPages! ? numPages! : prev + 1
               );
+              setValue('page' , String(currentPage + 1))
+
             }}
             variant="ghost"
             aria-label="next page"
@@ -158,9 +162,14 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button onClick={() => setRotation((prev) => prev + 90)} variant='ghost' aria-label="rotate 90 degrees">
-                <RotateCw className="h-4 w-4" />
+          <Button
+            onClick={() => setRotation((prev) => prev + 90)}
+            variant="ghost"
+            aria-label="rotate 90 degrees"
+          >
+            <RotateCw className="h-4 w-4" />
           </Button>
+          <PdfFullScreen fileUrl={url} />
         </div>
       </div>
       <div className="flex-1 w-full max-h-screen">
