@@ -1,6 +1,8 @@
 import React from 'react'
-
-const ChatInput = () => {
+interface ChatInputProps {
+    isDisabled?: boolean
+}
+const ChatInput = ({isDisabled}: ChatInputProps) => {
   return (
     <div>ChatInput</div>
   )
