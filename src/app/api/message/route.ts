@@ -8,13 +8,13 @@ export const POST =async (req: NextRequest) => {
 
     const body = await req.json();
 
-    const {getUser} : any = getKindeServerSession
+    const {getUser}= getKindeServerSession();
 
     const user = await getUser();
+    console.log(user)
+    const userId = user?.id;
 
-    const {id: userId} = user;
-
-    if (!userId){
+    if (!userId ){
         return new Response("Unauthorized", {status: 401})
     }
 
@@ -28,10 +28,10 @@ export const POST =async (req: NextRequest) => {
         }
     })
 
-    if(!file) {
+    if(!file) 
         return new Response("Not found", {status: 404})
 
-    }
+    
 
     await db.message.create({
         data : {
@@ -42,7 +42,7 @@ export const POST =async (req: NextRequest) => {
         }
     })
 
-    
+
 
 
     // semantic search
