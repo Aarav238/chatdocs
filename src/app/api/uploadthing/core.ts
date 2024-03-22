@@ -33,9 +33,11 @@ export const ourFileRouter = {
           uploadStatus: "PROCESSING"
         }
       })  
-      console.log("chupi chupi chapa Chapa")
 
-      console.log(createdFile.id , createdFile.userId)
+      console.log(createdFile)
+      // console.log("chupi chupi chapa Chapa")
+
+      // console.log(createdFile.id , createdFile.userId)
 
       console.log("file upload ho gyi")
 
@@ -71,6 +73,13 @@ export const ourFileRouter = {
             id: createdFile.id
           }
         })
+
+        const checkfile = await db.file.findFirst({
+          where: {
+            id: createdFile.id
+          }
+        })
+        console.log(checkfile)
       } catch (error) {
         console.log("error =>",error)
         await db.file.update({
