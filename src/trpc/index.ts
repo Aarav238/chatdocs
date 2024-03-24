@@ -41,57 +41,56 @@ export const appRouter = router({
       },
     });
   }),
-  getFileMessages : privateProcedure.
-  input(
+  getFileMessages: privateProcedure
+  .input(
     z.object({
-      limit: z.number().min(100).nullish(),
+      limit: z.number().min(1).max(100).nullish(),
       cursor: z.string().nullish(),
       fileId: z.string(),
     })
-  ).query(async({ctx, input}) => {
-    const {userId} = ctx
-    const {fileId, cursor} = input
+  )
+  .query(async ({ ctx, input }) => {
+    const { userId } = ctx
+    const { fileId, cursor } = input
     const limit = input.limit ?? INFINITE_QUERY_LIMIT
 
     const file = await db.file.findFirst({
       where: {
         id: fileId,
-        userId
-      }
+        userId,
+      },
     })
 
-    if(!file) throw new TRPCError ({code: "NOT_FOUND"})
+    if (!file) throw new TRPCError({ code: 'NOT_FOUND' })
+
     const messages = await db.message.findMany({
       take: limit + 1,
       where: {
-        fileId
+        fileId,
       },
-      orderBy:{
-        createdAt: "desc"
+      orderBy: {
+        createdAt: 'desc',
       },
-      cursor: cursor ? {id : cursor} : undefined,
+      cursor: cursor ? { id: cursor } : undefined,
       select: {
-        id: true, 
+        id: true,
         isUserMessage: true,
         createdAt: true,
-        text: true
-      }
+        text: true,
+      },
     })
 
-
     let nextCursor: typeof cursor | undefined = undefined
-
-    if(messages.length > limit){
+    if (messages.length > limit) {
       const nextItem = messages.pop()
       nextCursor = nextItem?.id
     }
 
-
     return {
-      messages, 
-      nextCursor
+      messages,
+      nextCursor,
     }
-    }),
+  }),
 
 
   getFileUploadStatus: privateProcedure

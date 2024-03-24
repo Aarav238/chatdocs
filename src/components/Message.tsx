@@ -3,9 +3,8 @@ import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query"
 import { Loader2, MessageSquare} from "lucide-react"
 import Skeleton from "react-loading-skeleton"
 import Message from "./chat/Message"
-import { useContext, useEffect, useRef } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { ChatContext } from "./chat/ChatContext"
-import { useIntersection } from '@mantine/hooks'
 
 
 
@@ -104,6 +103,37 @@ const Messages = ({fileId}: MessagesProps) => {
       )}
     </div>
   )
+}
+
+function useIntersection<T extends HTMLElement = any>(
+  options?: ConstructorParameters<typeof IntersectionObserver>[1]
+) {
+  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const ref = useCallback(
+    (element: T | null) => {
+      if (observer.current) {
+        observer.current.disconnect();
+        observer.current = null;
+      }
+
+      if (element === null) {
+        setEntry(null);
+        return;
+      }
+
+      observer.current = new IntersectionObserver(([_entry]) => {
+        setEntry(_entry);
+      }, options);
+
+      observer.current.observe(element);
+    },
+    [options?.rootMargin, options?.root, options?.threshold]
+  );
+
+  return { ref, entry };
 }
 
 export default Messages
