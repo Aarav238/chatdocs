@@ -19,7 +19,7 @@ const Navbar = async() => {
                 <Link href="/" className="flex z-40 font-semibold">
                     <span>ChatDocs</span>
                 </Link>
-                <MobileNav/>
+                <MobileNav isAuth={!!user}/>
                 <div className="hidden items-center space-x-4 sm:flex">
                    { !user ?(<>
                         <Link className={buttonVariants({
