@@ -4,6 +4,7 @@ import { buttonVariants } from "./ui/button"
 import { LoginLink ,RegisterLink, getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { ArrowRight } from "lucide-react"
 import UserAccountNav from "./UserAccountNav"
+import MobileNav from "./MobileNav"
 
 
 
@@ -18,7 +19,7 @@ const Navbar = async() => {
                 <Link href="/" className="flex z-40 font-semibold">
                     <span>ChatDocs</span>
                 </Link>
-                {/* add mobile navbar */}
+                <MobileNav/>
                 <div className="hidden items-center space-x-4 sm:flex">
                    { !user ?(<>
                         <Link className={buttonVariants({
@@ -61,7 +62,7 @@ const Navbar = async() => {
                         imageUrl={user.picture ?? ''}
                         />
                     </>)}
-                </div>
+                Nm</div>
             </div>
         </MaxWidthWrapper>
     </nav>
