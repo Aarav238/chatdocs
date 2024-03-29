@@ -62,7 +62,7 @@ const Navbar = async() => {
                         imageUrl={user.picture ?? ''}
                         />
                     </>)}
-                Nm</div>
+                </div>
             </div>
         </MaxWidthWrapper>
     </nav>
