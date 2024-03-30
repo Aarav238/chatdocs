@@ -61,7 +61,8 @@ const BillingForm = ({subscriptionPlan}: BillingFormProps) => {
                         "Your plan will be cancelled on":
                         "Your plan renews on"
                     }
-                    {format(subscriptionPlan.stripeCurrentPeriodEnd!, "dd.MM.yyyy")}
+                    {' '}
+                    <span className="font-bold">{format(subscriptionPlan.stripeCurrentPeriodEnd!, "dd.MM.yyyy")}</span>
                     </p>
                 ) : null}
             </CardFooter>
