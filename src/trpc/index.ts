@@ -12,27 +12,26 @@ export const appRouter = router({
     const { getUser } = getKindeServerSession();
 
     const user = await getUser();
-    if (!user || !user.id || !user.email)
+    if (!user || !user.id || !user.email){
       throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
 
-    //check if user is in the database
 
-    const dbUser = await db.user.findFirst({
+    await db.user.upsert({
       where: {
+        email: user.email,
+      },
+      update: {
         id: user.id,
+      },
+      create: {
+        id: user.id,
+        email: user.email,
       },
     });
 
-    if (!dbUser) {
-      //create user
 
-      await db.user.create({
-        data: {
-          id: user.id,
-          email: user.email,
-        },
-      });
-    }
+    
     return { success: true };
   }),
   getUserFile: privateProcedure.query(async ({ ctx }) => {
