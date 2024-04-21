@@ -30,7 +30,7 @@ const UploadDropzone = ({
   const { toast } = useToast()
 
   const { startUpload } = useUploadThing(
-    isSubscribed ? 'proPlanUploader' : 'freePlanUploader'
+    isSubscribed ? 'ProPlanUploader' : 'freePlanUploader'
   )
 
   const { mutate: startPolling } = trpc.getFile.useMutation(
