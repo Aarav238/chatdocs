@@ -14,6 +14,9 @@ const nextConfig = {
             }
         ]
     },
+    images:{
+      domains:[ "avatars.githubusercontent.com","lh3.googleusercontent.com"]
+    },
 
     webpack: (config, { buildId, dev, isServer, defaultLoader, webpack }) => {
         config.resolve.alias.canvas = false

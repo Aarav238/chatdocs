@@ -30,14 +30,14 @@ const Navbar = async() => {
                         })} href="/pricing">
                             Pricing
                         </Link>
-                       <LoginLink className={buttonVariants({
+                       <LoginLink orgCode="org_76c6b3112f9" className={buttonVariants({
                             variant: "ghost",
                             size: "sm",
 
                         })}>
                             Sign in
                         </LoginLink>
-                        <RegisterLink className={buttonVariants({
+                        <RegisterLink orgCode="org_76c6b3112f9" className={buttonVariants({
                             size: "sm",
 
                         })}>
