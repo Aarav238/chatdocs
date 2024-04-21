@@ -146,14 +146,13 @@ const UploadDropzone = ({
                   ) : null}
                 </div>
               ) : null}
-
-              <input
+            </label>
+            <input
                 {...getInputProps()}
                 type='file'
                 id='dropzone-file'
                 className='hidden'
               />
-            </label>
           </div>
         </div>
       )}
