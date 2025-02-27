@@ -44,7 +44,7 @@ const onUploadComplete = async ( {metadata, file}:
       key: file.key,
       name : file.name,
       userId: metadata.userId,
-      url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+      url: `https://kafy9fomqi.ufs.sh/f/${file.key}`,
       uploadStatus: "PROCESSING"
     }
   })  
@@ -57,7 +57,7 @@ const onUploadComplete = async ( {metadata, file}:
   console.log("file upload ho gyi")
 
   try {
-    const response  = await fetch (`https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`)
+    const response  = await fetch (`https://kafy9fomqi.ufs.sh/f/${file.key}`)
     const blob = await response.blob()
     console.log("blobed")
 
