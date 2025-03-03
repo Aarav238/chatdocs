@@ -49,7 +49,7 @@ export const POST =async (req: NextRequest) => {
 
 
     const embeddings = new OpenAIEmbeddings({
-        apiKey: process.env.OpenAI_API_KEY!
+        apiKey: process.env.OPENAI_API_KEY!
       })
 
 
@@ -117,7 +117,7 @@ export const POST =async (req: NextRequest) => {
 
 
 
-    const stream = OpenAIStream(response, {
+    const stream = OpenAIStream(response as AsyncIterable<any>, {
         async onCompletion(completion) {
           //  console.log("completion----" , completion)
             await db.message.create({

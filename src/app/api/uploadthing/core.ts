@@ -88,7 +88,7 @@ const onUploadComplete = async ( {metadata, file}:
     console.log("setup pinecone gui")
 
     const embeddings = new OpenAIEmbeddings({
-      apiKey: process.env.OpenAI_API_KEY!
+      apiKey: process.env.OPENAI_API_KEY!
     })
     console.log(embeddings)
 
