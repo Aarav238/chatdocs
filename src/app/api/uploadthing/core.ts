@@ -3,8 +3,8 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { pinecone} from "@/lib/pinecone";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
-import {OpenAIEmbeddings} from 'langchain/embeddings/openai'
+import { PineconeStore } from "@langchain/pinecone";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { PLANS } from "@/config/stripe";
 const f = createUploadthing();
@@ -44,23 +44,23 @@ const onUploadComplete = async ( {metadata, file}:
       key: file.key,
       name : file.name,
       userId: metadata.userId,
-      url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+      url: `https://kafy9fomqi.ufs.sh/f/${file.key}`,
       uploadStatus: "PROCESSING"
     }
   })  
 
-  console.log(createdFile)
-  // console.log("chupi chupi chapa Chapa")
+ // console.log(createdFile)
+ 
 
   // console.log(createdFile.id , createdFile.userId)
 
   console.log("file upload ho gyi")
 
   try {
-    const response  = await fetch (`https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`)
+    const response  = await fetch (`https://kafy9fomqi.ufs.sh/f/${file.key}`)
+    //console.log(response)
     const blob = await response.blob()
-    console.log("blobed")
-
+    //console.log("blobed => ",blob);
     const loader = new PDFLoader(blob)
     const pageLevelDocs = await loader.load();
     console.log("laoded")
@@ -73,6 +73,7 @@ const onUploadComplete = async ( {metadata, file}:
     const isFreeExceeded = pagesAmt > PLANS.find((plan) => plan.name ==="Free")!.pagesPerPdf;
 
     if((isSubscribed && isProExceeded) || (!isSubscribed && isFreeExceeded)){
+    //  console.log("isSubscribed && isProExceeded) || (!isSubscribed && isFreeExceeded)")
       await db.file.update({
         data: {
           uploadStatus: "FAILED"
@@ -83,11 +84,11 @@ const onUploadComplete = async ( {metadata, file}:
       })
     }
     //vectorize and index entire documentation.
-    const pineconeIndex = pinecone.Index("chat-bot")
+    const pineconeIndex = pinecone.Index("chat-docs")
     console.log("setup pinecone gui")
 
     const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OpenAI_API_KEY!
     })
     console.log(embeddings)
 

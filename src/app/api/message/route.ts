@@ -4,8 +4,8 @@ import { openai } from "@/lib/openai";
 import { pinecone } from "@/lib/pinecone";
 import { sendMessageValidator } from "@/lib/validators/SendMessageValidator";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
+import { PineconeStore } from "@langchain/pinecone";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { NextRequest } from "next/server";
 
 export const POST =async (req: NextRequest) => {
@@ -49,16 +49,16 @@ export const POST =async (req: NextRequest) => {
 
 
     const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: process.env.OPENAI_API_KEY,
+        apiKey: process.env.OpenAI_API_KEY!
       })
 
 
-    const pineconeIndex = pinecone.Index("chat-bot")
+    const pineconeIndex = pinecone.Index("chat-docs")
 
     const vectorStore = await PineconeStore.fromExistingIndex(embeddings , 
         {
           pineconeIndex,
-          namespace: file.id  
+          namespace: file.id
         })
 
     const results = await vectorStore.similaritySearch(message,4)
