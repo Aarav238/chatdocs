@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { ChatContext } from "./ChatContext";
 interface ChatInputProps {
   isDisabled?: boolean;
@@ -48,7 +48,11 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
 
                 }}
               >
-                <Send className="w-4 h-4" />
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
               </Button>
             </div>
           </div>
